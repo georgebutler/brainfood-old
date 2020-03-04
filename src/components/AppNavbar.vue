@@ -1,18 +1,16 @@
 <template>
-  <nav class="navbar navbar-light">
-    <ul class="navbar-nav mr-auto">
-      <h3>Dashboard</h3>
-    </ul>
-    <ul class="navbar-nav ml-auto">
-      <li class="nav-item">
-        <a class="nav-link" href="#">John</a>
-      </li>
-    </ul>
-  </nav>
+  <div class="mt-3 mb-3 pl-3 pr-3 flex">
+    <div class="flex-grow">
+      <div>Dashboard</div>
+    </div>
+    <div>
+      <img class="rounded-full" src="https://i.pravatar.cc/32" alt="Avatar" width="32" height="32">
+    </div>
+  </div>
 </template>
 
 <script>
 export default {
-  name: 'Navbar'
+  name: 'AppNavbar'
 }
 </script>

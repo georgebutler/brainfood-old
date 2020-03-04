@@ -1,9 +1,8 @@
 <template>
   <section>
     <AppNavbar></AppNavbar>
-    <div class="container">
-      <h1>Home</h1>
-      <button class="btn btn-primary">Test Button</button>
+    <div class="container mx-auto pl-3 pr-3">
+      <p>Some text from home.</p>
     </div>
   </section>
 </template>
