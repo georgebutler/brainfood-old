@@ -1,5 +1,5 @@
 <template>
-  <div class="mt-4 mb-4 pl-3 pr-3 flex">
+  <div class="container mx-auto mt-3 mb-3 pl-3 pr-3 flex">
     <div class="flex-grow">
       <div class="text-xl font-bold">Dashboard</div>
     </div>
