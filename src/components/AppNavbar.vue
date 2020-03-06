@@ -1,11 +1,21 @@
 <template>
-  <div class="container mx-auto mt-3 mb-3 pl-3 pr-3 flex">
-    <div class="flex-grow">
-      <div class="text-xl font-bold">Dashboard</div>
-    </div>
-    <div>
-      <img class="rounded-full shadow" src="https://i.pravatar.cc/32" alt="Avatar" width="32" height="32">
-    </div>
+  <div class="container is-fluid">
+    <nav class="level is-mobile">
+        <!-- Left -->
+        <div class="level-left">
+          <div class="level-item">
+            <h1 class="title">Dashboard</h1>
+          </div>
+        </div>
+        <!-- Right -->
+        <div class="level-right">
+          <div class="level-item">
+            <figure class="image is-32x32">
+              <img class="is-rounded" src="https://i.pravatar.cc/32" alt="Avatar">
+            </figure>
+          </div>
+        </div>
+    </nav>
   </div>
 </template>
 
