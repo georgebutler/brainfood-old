@@ -1,6 +1,6 @@
 <template>
   <div class="container is-fluid">
-    <nav class="level is-mobile">
+    <nav class="level is-mobile mt-1 mb-1">
         <!-- Left -->
         <div class="level-left">
           <div class="level-item">
