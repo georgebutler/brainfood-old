@@ -7,27 +7,41 @@
         <p class="control has-icons-left">
           <label>
             <input class="input is-rounded" type="text" placeholder="Search">
+            <span class="icon is-left">
+              <ion-icon name="search-outline"></ion-icon>
+            </span>
           </label>
-          <span class="icon is-left">
-            <ion-icon name="search-outline"></ion-icon>
-          </span>
         </p>
       </div>
 
       <!-- Tabs -->
       <div class="tabs">
-        <ul>
+        <ul class="is-left">
           <li class="is-uppercase is-active">
-            <a class="has-text-weight-semibold">Discover</a>
+            <a class="has-text-weight-semibold">
+              <span>Discover</span>
+            </a>
           </li>
           <li class="is-uppercase">
-            <a class="has-text-weight-semibold">My Pantry</a>
+            <a class="has-text-weight-semibold">
+              <span>My Pantry</span>
+            </a>
           </li>
+        </ul>
+        <ul class="is-right">
           <li class="is-uppercase">
-            <a class="has-text-weight-semibold">Add</a>
+            <a class="has-text-weight-semibold">
+              <span>Add</span>
+            </a>
           </li>
         </ul>
       </div>
+    </div>
+
+    <!-- Pantry Quick-View -->
+    <div class="section">
+      <h3 class="title is-5">Get Started</h3>
+      <p>RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR</p>
     </div>
   </main>
 </template>
