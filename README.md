@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/georgebutler/brainfood.svg?branch=master)](https://travis-ci.org/georgebutler/brainfood)
+
 # brainfood
 
 ## Project setup

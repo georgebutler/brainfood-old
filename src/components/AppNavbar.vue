@@ -4,7 +4,7 @@
         <!-- Left -->
         <div class="level-left">
           <div class="level-item">
-            <h1 class="title">Dashboard</h1>
+            <h1 class="title">{{ title }}</h1>
           </div>
         </div>
         <!-- Right -->
@@ -21,6 +21,12 @@
 
 <script>
 export default {
-  name: 'AppNavbar'
+  name: 'AppNavbar',
+  props: {
+    title: {
+      type: String,
+      default: 'BrainFood'
+    }
+  }
 }
 </script>
