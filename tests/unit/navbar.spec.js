@@ -1,8 +1,8 @@
-import AppNavbar from "@/components/AppNavbar.vue";
+import AppNavbar from "@/components/AppHeader.vue";
 import { shallowMount } from "@vue/test-utils";
 import { expect } from "chai";
 
-describe("AppNavbar.vue", () => {
+describe("AppHeader.vue", () => {
   it("renders props.title when passed", () => {
     const title = "Hello World!";
     const wrapper = shallowMount(AppNavbar, { propsData: { title } });

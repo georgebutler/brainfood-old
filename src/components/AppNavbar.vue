@@ -1,32 +1,24 @@
 <template>
-  <div class="container is-fluid">
+  <div class="container is-fluid is-fixed-bottom">
     <nav class="level is-mobile mt-1 mb-1">
-        <!-- Left -->
-        <div class="level-left">
-          <div class="level-item">
-            <h1 class="title">{{ title }}</h1>
-          </div>
+      <div class="level-item">
+        <div class="icon is-large">
+          <ios-search-icon w="2rem" h="2rem"/>
         </div>
-        <!-- Right -->
-        <div class="level-right">
-          <div class="level-item">
-            <figure class="image is-32x32">
-              <img class="is-rounded" src="https://i.pravatar.cc/32" alt="Avatar">
-            </figure>
-          </div>
-        </div>
+      </div>
     </nav>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'AppNavbar',
-  props: {
-    title: {
-      type: String,
-      default: 'BrainFood'
-    }
-  }
+  name: 'AppNavbar'
 }
 </script>
+
+<style lang="css" scoped>
+  .is-fixed-bottom {
+    position: absolute;
+    bottom: 0;
+  }
+</style>
