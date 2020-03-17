@@ -1,6 +1,6 @@
 <template>
   <main>
-    <AppNavbar></AppNavbar>
+    <AppNavbar title="Dashboard"></AppNavbar>
     <div class="container is-fluid">
       <!-- Search -->
       <div class="field">
@@ -8,7 +8,7 @@
           <label>
             <input class="input is-rounded" type="text" placeholder="Search">
             <span class="icon is-left">
-              <ion-icon name="search-outline"></ion-icon>
+              <ios-search-icon />
             </span>
           </label>
         </p>
@@ -50,7 +50,7 @@
 import AppNavbar from '../components/AppNavbar'
 
 export default {
-  name: 'Home',
+  name: 'Dashboard',
   components: {
     AppNavbar
   },
