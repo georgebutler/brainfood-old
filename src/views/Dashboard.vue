@@ -10,7 +10,7 @@
           <label>
             <input class="input is-rounded" type="text" placeholder="Search">
             <span class="icon is-left">
-              <ios-search-icon />
+              <ion-icon name="search-circle-outline" size="large"></ion-icon>
             </span>
           </label>
         </p>
@@ -31,7 +31,7 @@
           </li>
         </ul>
         <ul class="is-right">
-          <li class="is-uppercase has-text-weight-semibold">
+          <li class="is-uppercase" v-on:click="changeTab(2)" v-bind:class="{ 'is-active': tab === 2 }">
             <a class="has-text-weight-semibold">
               <span>Add</span>
             </a>
@@ -52,21 +52,44 @@
 
     <!-- Pantry Quick-View -->
     <div class="section" v-if="tab === 1">
-      <h3 class="title is-5">Get Started</h3>
-      <div class="columns is-mobile">
-        <div class="column">
-          <p class="is-size-7">Once you add items to your pantry, we'll provide some suggestions for you.</p>
-        </div>
+      <h5 class="title is-5">Select a Collection</h5>
+
+      <div class="select">
+        <label>
+          <select>
+            <option>Default</option>
+          </select>
+        </label>
       </div>
 
-      <div class="box">
+      <button class="button is-fullwidth is-primary mt-1">New Collection</button>
+
+      <!-- Quick Item View -->
+      <div class="block">
+        <h3 class="title is-5">In this collection</h3>
+        <p class="is-size-7">No items in this collection.</p>
+      </div>
+
+      <!-- Nutrition -->
+      <div class="block">
         <h3 class="title is-5">Nutrition</h3>
-        <div class="columns is-mobile">
-          <div class="column">
-            <p class="is-size-7">Nutrition information not available at the moment.</p>
+        <p class="is-size-7">Nutrition information not available at the moment.</p>
+      </div>
+    </div>
+
+    <!-- Manual Add -->
+    <div class="section" v-if="tab === 2">
+      <h3 class="title is-5">Add your item</h3>
+      <form>
+        <div class="field">
+          <div class="control">
+            <label class="label">
+              Name
+              <input class="input" type="text" placeholder="Text input">
+            </label>
           </div>
         </div>
-      </div>
+      </form>
     </div>
 
     <!-- App Navbar -->
@@ -96,3 +119,13 @@ export default {
   }
 }
 </script>
+
+<style lang="css" scoped>
+  .select {
+    width: 100%;
+  }
+
+  select {
+    width: 100%;
+  }
+</style>
