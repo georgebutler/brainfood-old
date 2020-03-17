@@ -1,6 +1,6 @@
 <template>
   <main>
-    <AppNavbar></AppNavbar>
+    <AppNavbar title="Dashboard"></AppNavbar>
     <div class="container is-fluid">
       <!-- Search -->
       <div class="field">
