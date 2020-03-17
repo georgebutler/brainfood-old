@@ -4,21 +4,15 @@ import Dashboard from '../views/Dashboard.vue'
 
 Vue.use(VueRouter)
 
-const routes = [
-  {
-    path: '/',
-    name: 'Dashboard',
-    component: Dashboard
-  },
-  {
-    path: '/about',
-    name: 'About',
-    component: () => import('../views/About.vue')
-  }
-]
+const routes =
+    [
+      {path : '/', name : 'Dashboard', component : Dashboard}, {
+        path : '/about',
+        name : 'About',
+        component : () => import('../views/About.vue')
+      }
+    ]
 
-const router = new VueRouter({
-  routes
-})
+    const router = new VueRouter({routes})
 
 export default router
