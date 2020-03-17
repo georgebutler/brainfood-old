@@ -1,24 +1,18 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Dashboard from '../views/Dashboard.vue'
+import Vue from "vue";
+import VueRouter from "vue-router";
+import Dashboard from "../views/Dashboard.vue";
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
+  { path: "/", name: "Dashboard", component: Dashboard },
   {
-    path: '/',
-    name: 'Dashboard',
-    component: Dashboard
-  },
-  {
-    path: '/about',
-    name: 'About',
-    component: () => import('../views/About.vue')
+    path: "/about",
+    name: "About",
+    component: () => import("../views/About.vue")
   }
-]
+];
 
-const router = new VueRouter({
-  routes
-})
+const router = new VueRouter({ routes });
 
-export default router
+export default router;
