@@ -58,4 +58,9 @@ const router = new VueRouter({
   mode: 'history'
 })
 
+router.beforeEach((to, from, next) => {
+  document.title = to.meta.title + ' | BrainFood: Think about how you eat.' || 'BrainFood: Think about how you eat.'
+  next()
+})
+
 export default router
