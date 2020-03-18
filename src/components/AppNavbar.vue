@@ -5,7 +5,7 @@
       <div class="level-item has-text-centered">
         <router-link to="/home">
           <div class="title">
-            <div class="icon is-primary is-large">
+            <div class="icon is-large">
               <ion-icon name="grid-outline" size="large"></ion-icon>
             </div>
           </div>
@@ -17,7 +17,7 @@
       <div class="level-item has-text-centered">
         <router-link to="/dashboard">
           <div class="title">
-            <div class="icon is-primary is-large">
+            <div class="icon is-large">
               <ion-icon name="people-outline" size="large"></ion-icon>
             </div>
           </div>
@@ -27,9 +27,9 @@
 
       <!-- Pantry -->
       <div class="level-item has-text-centered">
-        <router-link to="/">
+        <router-link to="/pantry">
           <div class="title">
-            <div class="icon is-primary is-large">
+            <div class="icon is-large">
               <ion-icon name="basket-outline" size="large"></ion-icon>
             </div>
           </div>
@@ -41,7 +41,7 @@
       <div class="level-item has-text-centered">
         <router-link to="/scan">
           <div class="title">
-            <div class="icon is-primary is-large">
+            <div class="icon is-large">
               <ion-icon name="camera-outline" size="large"></ion-icon>
             </div>
           </div>
