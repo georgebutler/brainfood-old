@@ -8,4 +8,6 @@ import store from './store'
 Vue.config.ignoredElements = [/^ion-/]
 Vue.config.productionTip = false
 
+Vue.use(require('vue-moment'))
+
 new Vue({ store, router, render: h => h(App) }).$mount('#app')
