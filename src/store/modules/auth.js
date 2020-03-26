@@ -22,7 +22,7 @@ const actions = {
     return firebase.auth()
       .signInWithEmailAndPassword(payload.email, payload.password)
       .then((r) => {
-        console.log('Success, logged in.')
+        // console.log('Success, logged in.')
       })
   },
   register ({ commit, state }, payload) {
@@ -32,9 +32,9 @@ const actions = {
         r.user.updateProfile({
           displayName: payload.displayName
         }).then((r) => {
-          console.log('Success, welcome to Brainfood.')
+          // console.log('Success, welcome to Brainfood.')
         }).catch((e) => {
-          console.error(e)
+          // console.error(e)
         })
       })
   }
