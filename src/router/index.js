@@ -1,13 +1,13 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import Home from '../views/Home.vue'
 import Dashboard from '../views/Dashboard.vue'
-import Pantry from '../views/Pantry.vue'
-import Scan from '../views/Scan.vue'
-import Login from '../views/auth/Login'
 import Error from '../views/message/Error'
+import Home from '../views/Home.vue'
+import Login from '../views/auth/Login'
+import Pantry from '../views/Pantry.vue'
 import Register from '../views/auth/Register'
+import Scan from '../views/Scan.vue'
 
 Vue.use(VueRouter)
 
