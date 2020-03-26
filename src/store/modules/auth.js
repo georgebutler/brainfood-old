@@ -1,27 +1,26 @@
 import axios from 'axios'
 
 const state = {
-  test: true
+  test: {}
 }
 
 const getters = {
-  password: (state, getters, rootState) => {
-    return state._admin
+  test: (state, getters, rootState) => {
+    return state.test
   }
 }
 
 const mutations = {
-  setPassword (state, data) {
-    state._admin = data._admin
+  setTest (state, data) {
+    state.test = { ...data }
   }
 }
 
 const actions = {
   login ({ commit, state }, data) {
-    axios.get(`https://jsonplaceholder.typicode.com/users/${Math.round((Math.random() * 100))}`)
+    axios.get('https://jsonplaceholder.typicode.com/users/1')
       .then((r) => {
-        console.log(r.data)
-        // commit('setPassword', data)
+        commit('setTest', r.data)
       }).catch((e) => {
         console.error(e)
       })
