@@ -1,4 +1,5 @@
-import axios from 'axios'
+// import axios from 'axios'
+import firebase from 'firebase'
 
 const state = {
   test: {}
@@ -17,12 +18,24 @@ const mutations = {
 }
 
 const actions = {
-  login ({ commit, state }, data) {
-    axios.get('https://jsonplaceholder.typicode.com/users/1')
+  login ({ commit, state }, payload) {
+    return firebase.auth()
+      .signInWithEmailAndPassword(payload.email, payload.password)
       .then((r) => {
-        commit('setTest', r.data)
-      }).catch((e) => {
-        console.error(e)
+        console.log('Success, logged in.')
+      })
+  },
+  register ({ commit, state }, payload) {
+    return firebase.auth()
+      .createUserWithEmailAndPassword(payload.email, payload.password)
+      .then((r) => {
+        r.user.updateProfile({
+          displayName: payload.displayName
+        }).then((r) => {
+          console.log('Success, welcome to Brainfood.')
+        }).catch((e) => {
+          console.error(e)
+        })
       })
   }
 }

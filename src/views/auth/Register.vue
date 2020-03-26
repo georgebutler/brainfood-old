@@ -10,12 +10,12 @@
 
       <!-- Form -->
       <section class="section">
-        <form action="" method="POST">
+        <form v-on:submit.prevent>
           <!-- Name -->
           <div class="field">
             <label class="label">Name</label>
             <div class="control has-icons-left">
-              <input required class="input" type="text" placeholder="John Doe" v-model.trim="input.name">
+              <input class="input" type="text" placeholder="John Doe" v-model.trim="input.name">
               <span class="icon is-small is-left">
                 <ion-icon name="person-outline"></ion-icon>
               </span>
@@ -26,46 +26,45 @@
           <div class="field">
             <label class="label">Email</label>
             <div class="control has-icons-left">
-              <input required class="input" type="email" placeholder="john@brainfood.com" v-model.trim="input.email">
+              <input class="input" type="email" placeholder="john@brainfood.com" v-bind:class="{'is-danger' : emailError}" v-model.trim="input.email">
               <span class="icon is-small is-left">
                 <ion-icon name="mail-outline"></ion-icon>
               </span>
             </div>
+            <p class="help is-danger" v-if="emailError">
+              {{ error.message }}
+            </p>
           </div>
 
           <!-- Password -->
           <div class="field">
             <label class="label">Password</label>
             <div class="control has-icons-left">
-              <input required class="input" type="password" v-model="input.password">
+              <input class="input" type="password" v-bind:class="{'is-danger' : passwordError}" v-model="input.password">
               <span class="icon is-small is-left">
                 <ion-icon name="lock-closed-outline"></ion-icon>
               </span>
             </div>
+            <p class="help is-danger" v-if="passwordError">
+              {{ error.message }}
+            </p>
           </div>
 
           <!-- Confirm Password -->
           <div class="field">
             <label class="label">Confirm Password</label>
             <div class="control has-icons-left">
-              <input required class="input" type="password" v-model="input.password_confirm">
+              <input class="input" type="password" v-model="input.password_confirm">
               <span class="icon is-small is-left">
                 <ion-icon name="lock-closed-outline"></ion-icon>
               </span>
             </div>
           </div>
 
-          <!-- Error -->
-          <div class="field">
-          <article class="notification" v-if="error">
-            {{ error.message }}
-          </article>
-          </div>
-
           <!-- Submit -->
           <div class="field">
             <div class="control">
-              <button class="button is-fullwidth is-primary" v-on:click="submit">Submit</button>
+              <button class="button is-fullwidth is-primary" v-bind:class="{'is-loading' : loading}" v-on:click="submit">Submit</button>
             </div>
           </div>
         </form>
@@ -80,13 +79,12 @@
 </template>
 
 <script>
-import firebase from 'firebase'
-
 export default {
   name: 'Register',
   data () {
     return {
       error: null,
+      loading: false,
       input: {
         name: '',
         email: '',
@@ -95,16 +93,32 @@ export default {
       }
     }
   },
+  computed: {
+    emailError () {
+      return (this.error && (this.error.code === 'auth/invalid-email' || this.error.code === 'auth/email-already-in-use'))
+    },
+    passwordError () {
+      return (this.error && (this.error.code === 'auth/weak-password'))
+    }
+  },
   methods: {
     submit () {
-      firebase.auth()
-        .createUserWithEmailAndPassword(this.input.email, this.input.password)
-        .then(data => {
-          data.user.updateProfile({
-            displayName: this.input.name
+      this.loading = true
+      this.$store.dispatch('auth/register', {
+        email: this.input.email,
+        password: this.input.password,
+        displayName: this.input.name
+      })
+        .then((r) => {
+          this.$store.dispatch('auth/login', {
+            email: this.input.email,
+            password: this.input.password
           })
-        }).catch((e) => {
-          console.error(e)
+        })
+        .finally(() => {
+          this.loading = false
+        })
+        .catch((e) => {
           this.error = { ...e }
         })
     }
