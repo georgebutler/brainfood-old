@@ -1,42 +1,36 @@
-// import axios from 'axios'
-import firebase from 'firebase'
-
 const state = {
-  test: {}
-}
-
-const getters = {
-  test: (state, getters, rootState) => {
-    return state.test
+  user: {
+    loggedIn: false,
+    data: null
   }
 }
 
-const mutations = {
-  setTest (state, data) {
-    state.test = { ...data }
+const getters = {
+  user (state) {
+    return state.user
   }
 }
 
 const actions = {
-  login ({ commit, state }, payload) {
-    return firebase.auth()
-      .signInWithEmailAndPassword(payload.email, payload.password)
-      .then((r) => {
-        // console.log('Success, logged in.')
+  fetchUser ({ commit }, user) {
+    commit('SET_LOGGED_IN', user !== null)
+    if (user) {
+      commit('SET_USER', {
+        displayName: user.displayName,
+        email: user.email
       })
+    } else {
+      commit('SET_USER', null)
+    }
+  }
+}
+
+const mutations = {
+  SET_LOGGED_IN (state, value) {
+    state.user.loggedIn = value
   },
-  register ({ commit, state }, payload) {
-    return firebase.auth()
-      .createUserWithEmailAndPassword(payload.email, payload.password)
-      .then((r) => {
-        r.user.updateProfile({
-          displayName: payload.displayName
-        }).then((r) => {
-          // console.log('Success, welcome to Brainfood.')
-        }).catch((e) => {
-          // console.error(e)
-        })
-      })
+  SET_USER (state, data) {
+    state.user.data = data
   }
 }
 
