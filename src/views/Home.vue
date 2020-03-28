@@ -3,6 +3,8 @@
     <!-- App Header -->
     <AppHeader title="Home"></AppHeader>
 
+    <!-- Settings Overlay -->
+
     <div class="container is-fluid">
       <!-- Search -->
       <div class="field">
@@ -40,24 +42,29 @@
         </div>
         <div class="level-right">
           <div class="level-item has-text-centered">
-            <router-link to="/home">
+            <div v-on:click="changeTab(1)">
               <div class="title">
                 <div class="icon is-large">
-                  <ion-icon name="settings-outline" size="large"></ion-icon>
+                  <ion-icon name="settings-outline" size="large" v-bind:color="tab === 1 ? 'danger' : 'dark'"></ion-icon>
                 </div>
               </div>
-            </router-link>
+            </div>
           </div>
         </div>
       </nav>
 
       <!-- Feed -->
-      <section class="section">
+      <section class="section" v-if="tab === 0">
         <h3 class="title is-size-5">Feed</h3>
         <FeedItem name="John Doe"></FeedItem>
         <FeedItem name="James Smith"></FeedItem>
         <FeedItem name="Tony Granger"></FeedItem>
         <FeedItem name="Thomas Wilson"></FeedItem>
+      </section>
+
+      <!-- Settings -->
+      <section class="section" v-if="tab === 1">
+        <h3 class="title is-size-5">Settings</h3>
       </section>
     </div>
 
@@ -77,6 +84,16 @@ export default {
     FeedItem,
     AppHeader,
     AppNavbar
+  },
+  data: function () {
+    return {
+      tab: 0
+    }
+  },
+  methods: {
+    changeTab: function (tab) {
+      this.tab = tab
+    }
   }
 }
 </script>

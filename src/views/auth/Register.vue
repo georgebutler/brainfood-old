@@ -122,8 +122,10 @@ export default {
       firebase.auth()
         .createUserWithEmailAndPassword(this.input.email, this.input.password)
         .then((userCredential) => {
+          userCredential.user.sendEmailVerification()
           userCredential.user.updateProfile({
-            displayName: this.input.name
+            displayName: this.input.name,
+            photoURL: 'https://randomuser.me/api/portraits/men/32.jpg'
           }).catch((e) => {
             this.error = e
           })

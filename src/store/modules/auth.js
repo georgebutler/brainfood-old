@@ -1,8 +1,6 @@
 const state = {
   isAuthenticated: false,
-  user: {
-    data: null
-  }
+  user: null
 }
 
 const getters = {
@@ -30,7 +28,7 @@ const mutations = {
     state.isAuthenticated = value
   },
   SET_USER (state, data) {
-    state.user.data = data
+    state.user = data
   }
 }
 

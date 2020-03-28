@@ -57,6 +57,13 @@
               <button class="button is-fullwidth is-primary" v-bind:class="{'is-loading' : loading}" v-on:click="onSubmit">Submit</button>
             </div>
           </div>
+
+          <!-- Logout -->
+          <div class="field">
+            <div class="control">
+              <button class="button is-fullwidth" v-bind:class="{'is-loading' : loading}" v-on:click="onLogout">Logout</button>
+            </div>
+          </div>
         </form>
       </section>
 
@@ -103,6 +110,23 @@ export default {
 
       firebase.auth()
         .signInWithEmailAndPassword(this.input.email, this.input.password)
+        .then(() => {
+          this.$router.push({
+            path: '/home'
+          })
+        })
+        .finally(() => {
+          this.loading = false
+        })
+        .catch((e) => {
+          this.error = e
+        })
+    },
+    onLogout () {
+      this.loading = true
+
+      firebase.auth()
+        .signOut()
         .finally(() => {
           this.loading = false
         })
