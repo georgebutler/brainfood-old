@@ -61,6 +61,15 @@
             </div>
           </div>
 
+          <!-- Error -->
+          <div class="field">
+            <div class="control">
+              <div class="help is-danger" v-if="requestError">
+                {{ error.message }}
+              </div>
+            </div>
+          </div>
+
           <!-- Submit -->
           <div class="field">
             <div class="control">
@@ -101,6 +110,9 @@ export default {
     },
     passwordError () {
       return (this.error && (this.error.code === 'auth/weak-password'))
+    },
+    requestError () {
+      return (this.error && (this.error.code === 'auth/too-many-requests'))
     }
   },
   methods: {

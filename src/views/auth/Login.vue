@@ -42,6 +42,7 @@
             </p>
           </div>
 
+          <!-- Error -->
           <div class="field">
             <div class="control">
               <div class="help is-danger" v-if="requestError">

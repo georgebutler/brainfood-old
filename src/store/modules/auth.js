@@ -1,6 +1,6 @@
 const state = {
+  isAuthenticated: false,
   user: {
-    loggedIn: false,
     data: null
   }
 }
@@ -27,7 +27,7 @@ const actions = {
 
 const mutations = {
   SET_LOGGED_IN (state, value) {
-    state.user.loggedIn = value
+    state.isAuthenticated = value
   },
   SET_USER (state, data) {
     state.user.data = data

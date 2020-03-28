@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import store from '../store'
 
 import Dashboard from '../views/Dashboard.vue'
 import Error from '../views/message/Error'
@@ -21,7 +22,7 @@ const routes = [
     name: 'Home',
     component: Home,
     meta: {
-      auth: true,
+      requiresAuth: true,
       title: 'Home'
     }
   },
@@ -30,7 +31,7 @@ const routes = [
     name: 'Dashboard',
     component: Dashboard,
     meta: {
-      auth: true,
+      requiresAuth: true,
       title: 'Dashboard'
     }
   },
@@ -39,7 +40,7 @@ const routes = [
     name: 'Pantry',
     component: Pantry,
     meta: {
-      auth: true,
+      requiresAuth: true,
       title: 'Pantry'
     }
   },
@@ -48,7 +49,7 @@ const routes = [
     name: 'Scan',
     component: Scan,
     meta: {
-      auth: true,
+      requiresAuth: true,
       title: 'Scan'
     }
   },
@@ -57,7 +58,7 @@ const routes = [
     name: 'Login',
     component: Login,
     meta: {
-      auth: false,
+      requiresAuth: false,
       title: 'Login'
     }
   },
@@ -66,7 +67,7 @@ const routes = [
     name: 'Register',
     component: Register,
     meta: {
-      auth: false,
+      requiresAuth: false,
       title: 'Register'
     }
   },
@@ -83,9 +84,22 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  const title = to.meta.title ? `${to.meta.title} | ` : ''
-  document.title = `${title} Brainfood - Think about how you eat.`
-  next()
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    if (store.state.auth.isAuthenticated) {
+      next()
+    } else {
+      next({ name: 'Login' })
+    }
+  } else {
+    next()
+  }
+})
+
+router.afterEach((to, from) => {
+  Vue.nextTick(() => {
+    const title = to.meta.title ? `${to.meta.title} | ` : ''
+    document.title = `${title} Brainfood - Think about how you eat.`
+  })
 })
 
 export default router
