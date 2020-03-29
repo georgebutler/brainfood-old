@@ -110,9 +110,9 @@ export default {
 
       firebase.auth()
         .signInWithEmailAndPassword(this.input.email, this.input.password)
-        .then(() => {
+        .then((authCredential) => {
           this.$router.push({
-            path: '/home'
+            path: 'home'
           })
         })
         .finally(() => {

@@ -126,9 +126,15 @@ export default {
           userCredential.user.updateProfile({
             displayName: this.input.name,
             photoURL: 'https://randomuser.me/api/portraits/men/32.jpg'
-          }).catch((e) => {
-            this.error = e
           })
+            .then(() => {
+              this.$router.push({
+                path: 'home'
+              })
+            })
+            .catch((e) => {
+              this.error = e
+            })
         })
         .finally(() => {
           this.loading = false

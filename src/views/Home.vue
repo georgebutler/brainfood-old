@@ -3,8 +3,6 @@
     <!-- App Header -->
     <AppHeader title="Home"></AppHeader>
 
-    <!-- Settings Overlay -->
-
     <div class="container is-fluid">
       <!-- Search -->
       <div class="field">
@@ -45,7 +43,7 @@
             <div v-on:click="changeTab(1)">
               <div class="title">
                 <div class="icon is-large">
-                  <ion-icon name="settings-outline" size="large" v-bind:color="tab === 1 ? 'danger' : 'dark'"></ion-icon>
+                  <ion-icon name="settings-outline" size="large" v-bind:color="tab === 1 ? 'primary' : 'dark'"></ion-icon>
                 </div>
               </div>
             </div>
@@ -64,7 +62,24 @@
 
       <!-- Settings -->
       <section class="section" v-if="tab === 1">
-        <h3 class="title is-size-5">Settings</h3>
+        <nav class="level is-mobile is-marginless">
+          <div class="level-left">
+            <div class="level-item has-text-centered">
+              <h3 class="title is-size-5">Settings</h3>
+            </div>
+          </div>
+          <div class="level-right">
+            <div class="level-item has-text-centered">
+              <div v-on:click="changeTab(0)">
+                <div class="title">
+                  <div class="icon is-large">
+                    <ion-icon name="close-circle-outline" size="large"></ion-icon>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </nav>
       </section>
     </div>
 
