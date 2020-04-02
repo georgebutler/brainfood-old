@@ -1,6 +1,6 @@
 <template>
   <main>
-    <!-- Login -->
+    <!-- Register -->
     <div class="container is-fluid">
       <!-- Header -->
       <section class="section header">
@@ -10,19 +10,27 @@
 
       <!-- Form -->
       <section class="section">
-        <form v-on:submit.prevent novalidate>
+        <form v-on:submit.prevent="onSubmit" novalidate>
+          <!-- Name -->
+          <div class="field">
+            <label class="label">Name</label>
+            <div class="control has-icons-left">
+              <input class="input" type="text" required placeholder="John Doe" v-model.trim="input.name">
+              <span class="icon is-small is-left">
+                <ion-icon name="person-outline"></ion-icon>
+              </span>
+            </div>
+          </div>
+
           <!-- Email -->
           <div class="field">
             <label class="label">Email</label>
             <div class="control has-icons-left">
-              <input class="input" type="email" placeholder="john@brainfood.com" required v-bind:class="{'is-danger' : emailError || notFoundError}" v-model.trim="input.email">
+              <input class="input" type="email" required placeholder="john@brainfood.com" v-bind:class="{'is-danger' : emailError}" v-model.trim="input.email">
               <span class="icon is-small is-left">
                 <ion-icon name="mail-outline"></ion-icon>
               </span>
             </div>
-            <p class="help is-danger" v-if="notFoundError">
-              {{ error.message }}
-            </p>
             <p class="help is-danger" v-if="emailError">
               {{ error.message }}
             </p>
@@ -42,6 +50,17 @@
             </p>
           </div>
 
+          <!-- Confirm Password -->
+          <div class="field">
+            <label class="label">Confirm Password</label>
+            <div class="control has-icons-left">
+              <input class="input" type="password" required v-model="input.password_confirm">
+              <span class="icon is-small is-left">
+                <ion-icon name="lock-closed-outline"></ion-icon>
+              </span>
+            </div>
+          </div>
+
           <!-- Error -->
           <div class="field">
             <div class="control">
@@ -57,36 +76,29 @@
               <button class="button is-fullwidth is-primary" v-bind:class="{'is-loading' : loading}" v-on:click="onSubmit">Submit</button>
             </div>
           </div>
-
-          <!-- Logout -->
-          <div class="field">
-            <div class="control">
-              <button class="button is-fullwidth" v-bind:class="{'is-loading' : loading}" v-on:click="onLogout">Logout</button>
-            </div>
-          </div>
         </form>
       </section>
 
       <!-- Help -->
       <section class="section has-text-centered is-size-7">
-        <router-link to="/register">Don't have an account? Click here to get started.</router-link>
+        <router-link to="/login">Already an account? Click here to login.</router-link>
       </section>
     </div>
   </main>
 </template>
 
 <script>
-import firebase from 'firebase'
-
 export default {
-  name: 'Login',
+  name: 'Register',
   data () {
     return {
       error: null,
       loading: false,
       input: {
+        name: '',
         email: '',
-        password: ''
+        password: '',
+        password_confirm: ''
       }
     }
   },
@@ -95,44 +107,15 @@ export default {
       return (this.error && (this.error.code === 'auth/invalid-email' || this.error.code === 'auth/email-already-in-use'))
     },
     passwordError () {
-      return (this.error && (this.error.code === 'auth/weak-password' || this.error.code === 'auth/wrong-password'))
-    },
-    notFoundError () {
-      return (this.error && (this.error.code === 'auth/user-not-found'))
+      return (this.error && (this.error.code === 'auth/weak-password'))
     },
     requestError () {
       return (this.error && (this.error.code === 'auth/too-many-requests'))
     }
   },
   methods: {
-    onSubmit () {
+    onSubmit (event) {
       this.loading = true
-
-      firebase.auth()
-        .signInWithEmailAndPassword(this.input.email, this.input.password)
-        .then((authCredential) => {
-          this.$router.push({
-            path: 'home'
-          })
-        })
-        .finally(() => {
-          this.loading = false
-        })
-        .catch((e) => {
-          this.error = e
-        })
-    },
-    onLogout () {
-      this.loading = true
-
-      firebase.auth()
-        .signOut()
-        .finally(() => {
-          this.loading = false
-        })
-        .catch((e) => {
-          this.error = e
-        })
     }
   }
 }
