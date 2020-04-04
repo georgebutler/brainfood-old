@@ -1,10 +1,10 @@
 language: node_js
+cache: npm
 node_js:
   - "node"
+before_install:
+  - cd server
 install:
-  - cd server && npm install && cd ..
+  - npm install
 script:
-  - cd server && npm test
-cache:
-  directories:
-    - "node_modules"
+  - npm test
