@@ -1,20 +1,20 @@
 const debug = require('debug')('brainfood:database')
 const mongoose = require('mongoose')
 
-mongoose.connect(process.env.DB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useCreateIndex: true
-})
+function connect () {
+  mongoose.connect(process.env.DB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true
+  })
 
-const db = mongoose.connection
+  mongoose.connection.on('error', function (error) {
+    debug(error)
+  })
 
-db.on('error', function (error) {
-  debug(error)
-})
+  mongoose.connection.once('open', function () {
+    debug('successfully connected.')
+  })
+}
 
-db.once('open', function () {
-  debug('successfully connected.')
-})
-
-module.exports = db
+module.exports = connect()
