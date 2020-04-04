@@ -1,10 +1,12 @@
 language: node_js
 cache: npm
 node_js:
-  - "node"
+- node
 before_install:
-  - cd server
+- cd server
 install:
-  - npm install
+- npm install
 script:
-  - npm test
+- npm test
+env:
+  secure: I/zLBgjvntDmM9CyMwQ6oWXbUXrc+nTMwF6loUTOkJv7/wGxhyEHOLi/LuLbnz7Q4aZIZho8qtWmzcwFBckDDnQPhBm4yPOqgfr1YGgldIGwqaBD7+WU2sWvXYmfqdN98v5vGp0hsGTD3YYpBZ2IAc7WkVN4w1W/RLzbk5UDW+EgEjexPlZ1iUgMS6MHGV/2jeKByNZdu4UoeJ/QgwXX9W7h8m6ThA8W74OTA+T+Shu9Sg/gx0SDU6u2BfzlaQCT5Cn6nKaRvPHpW6AaOriVw6wFFW6pfyKxmvMbQg4s8mkgaSvyMCGlORbJHNBCeqLTch1ezzfNr+XGYV0VShsSLtngEXHkxS4LjnzWGt5mClzgrhK3clzPz8qjZ/1Z2zUbe8Q+FTo4/Ebf9nG4TB7LP3wi9Hg3oItOV3D10pmOGfSc4pnHHF+41IcuVYxIbhWR5U+f/zfip/dspZkRYN+Z3UlhGzm/v8+BLu/NrXbU/u+HFhrAu8ol3Dm9fG2P6jc+8U0n7gG07hJoEOVdyAb5a1UihMeJKTkL+7Ap+SpCSrqbJUSHMF+ytxlf5rrnevY7C644LI+tIw2IpUOJF9TUrnRnm+4PDXLXcSli5JGfDaDlKykxo+st6CD1a846zvy9lkNLbel5dQM83IfzNOT5XANsILmBJ4e6dWSdCiTKFEk=
