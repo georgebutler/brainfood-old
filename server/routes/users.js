@@ -13,7 +13,7 @@ router.post('/', function (req, res, next) {
 
   User.register(user, req.body.password)
     .then((newUser) => {
-      return res.json(newUser)
+      return res.status(201).json(newUser)
     })
     .catch(function (error) {
       console.error(error)

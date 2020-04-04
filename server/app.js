@@ -1,7 +1,6 @@
 require('dotenv').config()
 
 const express = require('express')
-const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
 const session = require('express-session')
 const cors = require('cors')
@@ -22,7 +21,6 @@ app.use(helmet())
 app.use(logger('dev'))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
-app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cors())
 app.use(cookieParser())
 app.use(session({
