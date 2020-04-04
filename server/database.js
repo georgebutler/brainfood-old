@@ -1,8 +1,8 @@
 const debug = require('debug')('brainfood:database')
 const mongoose = require('mongoose')
 
-function connect () {
-  mongoose.connect(process.env.DB_URI, {
+async function connect () {
+  await mongoose.connect(process.env.DB_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true
