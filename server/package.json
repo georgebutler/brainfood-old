@@ -5,7 +5,7 @@
   "scripts": {
     "start": "cross-env NODE_ENV=production node ./bin/www",
     "dev": "cross-env NODE_ENV=dev node ./bin/www",
-    "test": "cross-env NODE_ENV=test mocha"
+    "test": "nodemon --exec 'mocha -R min'"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
