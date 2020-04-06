@@ -5,7 +5,7 @@ const chai = require('chai')
 const mocha = require('mocha')
 const chaiHttp = require('chai-http')
 
-const { describe, it, after } = mocha
+const { describe, it } = mocha
 const { expect } = chai
 
 chai.use(chaiHttp)
@@ -23,8 +23,4 @@ describe('GET /', () => {
         done()
       })
   })
-})
-
-after(async () => {
-  mongoose.connection.close()
 })
