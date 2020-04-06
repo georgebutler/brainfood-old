@@ -9,7 +9,7 @@ if (process.env.NODE_ENV === 'production') {
 
 mongoose.Promise = global.Promise
 
-mongoose.connect(`${uri}`, {
+mongoose.connect(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true
