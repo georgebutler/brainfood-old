@@ -10,7 +10,7 @@
 
         <!-- Right -->
         <div class="level-right">
-          <div class="level-item">
+          <div class="level-item" v-on:click="onLogout">
             <figure class="image is-32x32">
               <img class="is-rounded" src="https://i.pravatar.cc/32" alt="Avatar">
             </figure>
@@ -27,6 +27,16 @@ export default {
     title: {
       type: String,
       default: 'Brainfood'
+    }
+  },
+  methods: {
+    onLogout () {
+      this.loading = true
+      this.$store.dispatch('auth/logout')
+        .then(() => {
+          this.loading = false
+          this.$router.push('login')
+        })
     }
   }
 }
