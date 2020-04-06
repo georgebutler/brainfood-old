@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 const app = require('../app')
 const chai = require('chai')
 const mocha = require('mocha')
@@ -9,13 +11,15 @@ const { expect } = chai
 chai.use(chaiHttp)
 
 describe('server', () => {
-  it('welcomes user to the api', done => {
+  it('returns a json object', done => {
     chai
       .request(app)
       .get('/')
-    // eslint-disable-next-line handle-callback-err
       .end((err, res) => {
+        expect(err).to.not.exist
         expect(res).to.have.status(200)
+        expect(res.body).to.have.property('version')
+        expect(res.body).to.have.property('online').to.equal(true)
         done()
       })
   })
