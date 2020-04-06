@@ -7,25 +7,22 @@ const { before, after } = mocha
 
 const User = require('../models/user')
 
-before(async () => {
-  return new Promise((resolve, reject) => {
-    mongoose.connect(process.env.DB_URI_TEST, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useCreateIndex: true
-    })
-
-    User.deleteMany({}, function () {
-      console.log('Deleted all Users.')
-    })
-
-    resolve()
+before((done) => {
+  mongoose.connect(process.env.DB_URI_TEST, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true
   })
+
+  User.deleteMany({}, function () {
+    console.log('Deleted all Users.')
+  })
+
+  done()
 })
 
-after(async () => {
-  return new Promise((resolve, reject) => {
-    mongoose.connection.close()
-    resolve()
-  })
+after((done) => {
+  mongoose.connection.close()
+
+  done()
 })
