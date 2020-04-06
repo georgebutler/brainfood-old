@@ -14,6 +14,10 @@ const UserSchema = new mongoose.Schema({
   }]
 })
 
+UserSchema.methods.findSimilarTypes = function (params, callback) {
+  return this.model('Animal').find({ type: this.type }, callback)
+}
+
 UserSchema.plugin(passportLocalMongoose, {
   usernameField: 'email',
   passwordField: 'password'

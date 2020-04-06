@@ -7,6 +7,20 @@ router.get('/', function (req, res, next) {
   // const User = mongoose.model('Blog', userSchema)
 })
 
+router.post('/', async function (req, res) {
+  const name = { first: req.body.name.first, last: req.body.name.last }
+  const user = new User({ email: req.body.email, name })
+
+  await User.register(user, req.body.password)
+    .then((newUser) => {
+      return res.status(201).json(newUser)
+    })
+    .catch(function (error) {
+      console.error(error)
+      return res.status(400).json(error)
+    })
+})
+
 router.get('/:id', async function (req, res) {
   await User.findOne({
     _id: req.params.id
@@ -17,19 +31,6 @@ router.get('/:id', async function (req, res) {
       return res.status(200).json(user)
     }
   })
-})
-
-router.post('/', async function (req, res) {
-  const user = new User({ email: req.body.email })
-
-  await User.register(user, req.body.password)
-    .then((newUser) => {
-      return res.status(201).json(newUser)
-    })
-    .catch(function (error) {
-      console.error(error)
-      return res.status(400).json(error)
-    })
 })
 
 module.exports = router
