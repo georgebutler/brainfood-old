@@ -9,6 +9,7 @@ install:
 script:
 - npm test
 env:
-  - SESSION_SECRET=$SESSION_SECRET
-  - DB_URI=$DB_URI
-  - DB_URI_TEST=$DB_URI_TEST
+  global:
+    - SESSION_SECRET=$SESSION_SECRET
+    - DB_URI=$DB_URI
+    - DB_URI_TEST=$DB_URI_TEST
