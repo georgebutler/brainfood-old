@@ -1,15 +1,9 @@
 const debug = require('debug')('brainfood:database')
 const mongoose = require('mongoose')
 
-let uri = process.env.DB_URI_TEST
-
-if (process.env.NODE_ENV === 'production') {
-  uri = process.env.DB_URI
-}
-
 mongoose.Promise = global.Promise
 
-mongoose.connect(uri, {
+mongoose.connect(process.env.DB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true
