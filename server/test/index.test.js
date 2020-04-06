@@ -3,14 +3,18 @@ const mocha = require('mocha')
 
 const { before, after } = mocha
 
-before(async () => {
+before(async (done) => {
   await mongoose.connect(process.env.DB_URI_TEST, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true
   })
+
+  done()
 })
 
-after(async () => {
+after(async (done) => {
   await mongoose.connection.close()
+
+  done()
 })
