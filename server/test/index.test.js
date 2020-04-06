@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const mocha = require('mocha')
 
-const { before, after } = mocha
+const { before } = mocha
 
 before((done) => {
   mongoose.connect(process.env.DB_URI_TEST, {
@@ -12,7 +12,9 @@ before((done) => {
   done()
 })
 
+/*
 after((done) => {
   mongoose.connection.close()
   done()
 })
+ */
