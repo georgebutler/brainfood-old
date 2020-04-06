@@ -4,22 +4,25 @@ const state = {
 }
 
 const getters = {
+  isAuthenticated (state) {
+    return state.isAuthenticated
+  },
   user (state) {
     return state.user
   }
 }
 
 const actions = {
-  fetchUser ({ commit }, user) {
-    commit('SET_LOGGED_IN', user !== null)
-    if (user) {
-      commit('SET_USER', {
-        displayName: user.displayName,
-        email: user.email
-      })
-    } else {
-      commit('SET_USER', null)
-    }
+  login ({ commit }, data) {
+    commit('SET_LOGGED_IN', true)
+    commit('SET_USER', {
+      displayName: 'John Doe',
+      email: 'johndoe@brainfood.com'
+    })
+  },
+  logout ({ commit }) {
+    commit('SET_LOGGED_IN', false)
+    commit('SET_USER', null)
   }
 }
 

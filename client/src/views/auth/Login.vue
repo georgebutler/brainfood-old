@@ -105,6 +105,10 @@ export default {
   methods: {
     onSubmit () {
       this.loading = true
+      this.$store.dispatch('auth/login').then(() => {
+        this.loading = false
+        this.$router.push('home')
+      })
     },
     onLogout () {
       this.loading = true
