@@ -20,7 +20,11 @@ before(function(done) {
 		useCreateIndex: true
 	})
 
-	User.deleteMany({}, function(err, res) {
+	User.deleteMany({}, function(err) {
+		if (err) {
+			console.error(err)
+		}
+
 		done()
 	})
 })
@@ -28,6 +32,8 @@ before(function(done) {
 describe('User', function () {
 	describe('POST /users', function () {
 		it('registers a new user', function (done) {
+			const email = `${Date.now()}@brainfood.com`
+
 			chai
 				.request(app)
 				.post('/users')
@@ -36,13 +42,13 @@ describe('User', function () {
 						first: "John",
 						last: "Doe"
 					},
-					email: 'johndoe@brainfood.com',
+					email: email,
 					password: 'test1234'
 				})
 				.end((err, res) => {
 					expect(err).to.not.exist
 					expect(res).to.have.status(201)
-					expect(res.body).to.have.property('email').to.equal('johndoe@brainfood.com')
+					expect(res.body).to.have.property('email').to.equal(email)
 					expect(res.body).to.have.property('pantries').to.be.empty
 					expect(res.body).to.have.property('name')
 					expect(res.body.name).to.have.property('first')
