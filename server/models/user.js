@@ -2,11 +2,20 @@ const mongoose = require('mongoose')
 const passportLocalMongoose = require('passport-local-mongoose')
 
 const UserSchema = new mongoose.Schema({
-  email: String,
   password: String,
+  email: {
+    type: String,
+    required: [true, 'An email is required.']
+  },
   name: {
-    first: String,
-    last: String
+    first: {
+      type: String,
+      required: [true, 'A first name is required.']
+    },
+    last: {
+      type: String,
+      required: [true, 'A last name is required.']
+    }
   },
   pantries: [{
     type: mongoose.Schema.ObjectId,
