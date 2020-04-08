@@ -1,8 +1,11 @@
 const mongoose = require('mongoose')
-const passportLocalMongoose = require('passport-local-mongoose')
+const bcrypt = require('bcryptjs')
 
 const UserSchema = new mongoose.Schema({
-  password: String,
+  password: {
+    type: String,
+    required: [true, 'A password is required.']
+  },
   email: {
     type: String,
     required: [true, 'An email is required.']
@@ -23,13 +26,41 @@ const UserSchema = new mongoose.Schema({
   }]
 })
 
-UserSchema.methods.findSimilarTypes = function (params, callback) {
-  return this.model('Animal').find({ type: this.type }, callback)
+const User = module.exports = mongoose.model('User', UserSchema)
+
+module.exports.getUserById = function (id, callback) {
+  User.findById(id, callback)
 }
 
-UserSchema.plugin(passportLocalMongoose, {
-  usernameField: 'email',
-  passwordField: 'password'
-})
+module.exports.getUserByEmail = function (email, callback) {
+  const query = { email: email }
 
-module.exports = mongoose.model('User', UserSchema)
+  User.findById(query, callback)
+}
+
+module.exports.registerUser = function (newUser, callback) {
+  bcrypt.genSalt(10, (err, salt) => {
+    if (err) {
+      throw err
+    }
+
+    bcrypt.hash(newUser.password, salt, (err, hash) => {
+      if (err) {
+        throw err
+      }
+
+      newUser.password = hash
+      newUser.save(callback)
+    })
+  })
+}
+
+module.exports.comparePassword = function (canidatePassword, hash, callback) {
+  bcrypt.compare(canidatePassword, hash, (err, isMatch) => {
+    if (err) {
+      throw err
+    }
+
+    callback(null, isMatch)
+  })
+}

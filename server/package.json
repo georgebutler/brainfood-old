@@ -1,25 +1,24 @@
 {
   "name": "server",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
+    "test": "mocha",
     "start": "cross-env NODE_ENV=production node ./bin/www",
-    "dev": "cross-env NODE_ENV=dev node ./bin/www",
-    "test": "mocha --timeout 10000"
+    "dev": "cross-env NODE_ENV=dev nodemon ./bin/www"
   },
   "dependencies": {
-    "cookie-parser": "~1.4.4",
+    "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "debug": "~2.6.9",
     "dotenv": "^8.2.0",
     "express": "~4.16.1",
-    "express-session": "^1.17.0",
     "helmet": "^3.22.0",
+    "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.7",
     "morgan": "~1.9.1",
     "passport": "^0.4.1",
-    "passport-local": "^1.0.0",
-    "passport-local-mongoose": "^6.0.1"
+    "passport-jwt": "^4.0.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",
