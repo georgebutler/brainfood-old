@@ -4,8 +4,34 @@ const router = express.Router()
 
 const User = require('../models/user')
 
+function getToken (headers) {
+  if (headers && headers.authorization) {
+    const parted = headers.authorization.split(' ')
+
+    if (parted.length === 2) {
+      return parted[1]
+    } else {
+      return null
+    }
+  } else {
+    return null
+  }
+}
+
 router.get('/', passport.authenticate('jwt', { session: false }, undefined), (req, res, next) => {
-  res.status(200).json({ user: req.user })
+  const token = getToken(req.headers)
+
+  if (token) {
+    User.find(function (err, users) {
+      if (err) {
+        return next(err)
+      }
+
+      return res.status(200).json(users)
+    })
+  }
+
+  return res.status(403).json({ success: false, message: 'not authorized' })
 })
 
 router.get('/:id', function (req, res) {
