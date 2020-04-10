@@ -3,34 +3,20 @@ const passport = require('passport')
 const router = express.Router()
 
 const User = require('../models/user')
+const util = require('../plugins/util')
 
-function getToken (headers) {
-  if (headers && headers.authorization) {
-    const parted = headers.authorization.split(' ')
+/**
+ * @api {get} /user/ Request User information
+ * @apiName GetUser
+ * @apiGroup Users
+ */
+router.get('/', passport.authenticate('jwt', { session: false }, undefined), (req, res) => {
+  const user = util.getUserFromToken(req.headers)
 
-    if (parted.length === 2) {
-      return parted[1]
-    } else {
-      return null
-    }
+  if (user) {
+    return res.status(200).json(user)
   } else {
-    return null
-  }
-}
-
-router.get('/', passport.authenticate('jwt', { session: false }, undefined), (req, res, next) => {
-  const token = getToken(req.headers)
-
-  if (token) {
-    User.find(function (err, users) {
-      if (err) {
-        return res.status(500).json(err)
-      } else {
-        return res.status(200).json(users)
-      }
-    })
-  } else {
-    return res.status(403).json({ success: false, message: 'not authorized' })
+    return res.status(401).json({ success: false, message: 'not authorized' })
   }
 })
 
@@ -45,7 +31,10 @@ router.get('/:id', passport.authenticate('jwt', { session: false }, undefined), 
     if (user) {
       return res.status(200).json(user)
     } else {
-      return res.status(400).json({ success: false, message: 'That user could not be found.' })
+      return res.status(400).json({
+        success: false,
+        message: 'That user could not be found.'
+      })
     }
   })
 })

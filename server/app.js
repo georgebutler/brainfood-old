@@ -23,8 +23,8 @@ app.use(express.urlencoded({ extended: false }))
 app.use(passport.initialize(undefined))
 app.use(passport.session(undefined))
 
-app.use('/', indexRouter)
-app.use('/users', usersRouter)
-app.use('/auth', authRouter)
+app.use('/api/', indexRouter)
+app.use('/api/users', usersRouter)
+app.use('/api/auth', authRouter)
 
 module.exports = app
