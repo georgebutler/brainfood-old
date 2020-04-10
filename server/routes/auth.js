@@ -55,7 +55,7 @@ router.post('/login', (req, res) => {
       const token = jwt.sign(user.toJSON(), process.env.SECRET, { expiresIn: 604800 })
       return res.status(200).json({ success: true, token: 'JWT ' + token })
     })
-  })
+  }).select('+password')
 })
 
 router.get('/logout', (req, res) => {

@@ -24,17 +24,17 @@ router.get('/', passport.authenticate('jwt', { session: false }, undefined), (re
   if (token) {
     User.find(function (err, users) {
       if (err) {
-        return next(err)
+        return res.status(500).json(err)
+      } else {
+        return res.status(200).json(users)
       }
-
-      return res.status(200).json(users)
     })
+  } else {
+    return res.status(403).json({ success: false, message: 'not authorized' })
   }
-
-  return res.status(403).json({ success: false, message: 'not authorized' })
 })
 
-router.get('/:id', function (req, res) {
+router.get('/:id', passport.authenticate('jwt', { session: false }, undefined), function (req, res) {
   User.findOne({
     _id: req.params.id
   }, '_id', function (err, user) {
