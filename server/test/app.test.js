@@ -15,7 +15,7 @@ describe('App', function () {
     it('returns a json object with online, and version', done => {
       chai
         .request(app)
-        .get('/')
+        .get('/api/')
         .end((err, res) => {
           expect(err).to.not.exist
           expect(res).to.have.status(200)

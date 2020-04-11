@@ -16,7 +16,10 @@ router.get('/', passport.authenticate('jwt', { session: false }, undefined), (re
   if (user) {
     return res.status(200).json(user)
   } else {
-    return res.status(401).json({ success: false, message: 'not authorized' })
+    return res.status(401).json({
+      success: false,
+      message: 'Not authorized'
+    })
   }
 })
 

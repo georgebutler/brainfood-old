@@ -36,7 +36,7 @@ describe('User', function () {
 
 			chai
 				.request(app)
-				.post('/users')
+				.post('/api/auth/register')
 				.send({
 					name: {
 						first: "John",
@@ -48,11 +48,7 @@ describe('User', function () {
 				.end((err, res) => {
 					expect(err).to.not.exist
 					expect(res).to.have.status(201)
-					expect(res.body).to.have.property('email').to.equal(email)
-					expect(res.body).to.have.property('pantries').to.be.empty
-					expect(res.body).to.have.property('name')
-					expect(res.body.name).to.have.property('first')
-					expect(res.body.name).to.have.property('last')
+					expect(res.body).to.have.property('token')
 
 					done()
 				})
