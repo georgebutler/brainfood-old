@@ -11,6 +11,7 @@ require('./plugins/passport')(passport)
 const indexRouter = require('./routes/index')
 const usersRouter = require('./routes/users')
 const authRouter = require('./routes/auth')
+const pantriesRouter = require('./routes/pantries')
 
 const app = express()
 
@@ -26,5 +27,6 @@ app.use(passport.session(undefined))
 app.use('/api/', indexRouter)
 app.use('/api/users', usersRouter)
 app.use('/api/auth', authRouter)
+app.use('/api/pantries', pantriesRouter)
 
 module.exports = app

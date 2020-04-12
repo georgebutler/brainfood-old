@@ -10,6 +10,14 @@ const { expect } = chai
 
 chai.use(chaiHttp)
 
+before(function(done) {
+  mongoose.connect(process.env.DB_URI_TEST, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true
+  })
+})
+
 describe('App', function () {
   describe('GET /', () => {
     it('returns a json object with online, and version', done => {

@@ -14,12 +14,6 @@ const { expect } = chai
 chai.use(chaiHttp)
 
 before(function(done) {
-	mongoose.connect(process.env.DB_URI_TEST, {
-		useNewUrlParser: true,
-		useUnifiedTopology: true,
-		useCreateIndex: true
-	})
-
 	User.deleteMany({}, function(err) {
 		if (err) {
 			console.error(err)
@@ -30,7 +24,7 @@ before(function(done) {
 })
 
 describe('User', function () {
-	describe('POST /users', function () {
+	describe('POST /register', function () {
 		it('registers a new user', function (done) {
 			const email = `${Date.now()}@brainfood.com`
 

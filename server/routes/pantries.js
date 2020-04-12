@@ -3,27 +3,38 @@ const passport = require('passport')
 const router = express.Router()
 
 const Pantry = require('../models/pantry')
+const User = require('../models/user')
 const util = require('../plugins/util')
 
 router.post('/', passport.authenticate('jwt', { session: false }, undefined), (req, res) => {
-  const user = util.getUserFromToken(req.headers)
   const name = req.body.name
+  const decoded = util.getUserFromToken(req.headers)
 
   if (name) {
-    if (user) {
-      const pantry = new Pantry({
-        name: name,
-        owner: user
-      })
-
-      pantry.save(function (err, newPantry) {
+    if (decoded) {
+      User.findById(decoded._id, function (err, user) {
         if (err) {
-          return res.status(400).json({
+          return res.status(500).json({
             success: false,
             message: 'Unable to create Pantry.'
           })
         } else {
-          return res.status(200).json(newPantry)
+          Pantry.create({ name: name, owner: user }, function (err, pantry) {
+            if (err) {
+              return res.status(500).json({
+                success: false,
+                message: 'Unable to create Pantry.'
+              })
+            } else {
+              pantry.owner.id = user._id
+              pantry.save()
+
+              user.pantries.push(pantry)
+              user.save()
+
+              return res.status(201).json(pantry)
+            }
+          })
         }
       })
     } else {
@@ -39,3 +50,5 @@ router.post('/', passport.authenticate('jwt', { session: false }, undefined), (r
     })
   }
 })
+
+module.exports = router
