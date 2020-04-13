@@ -8,7 +8,18 @@ const util = require('../plugins/util')
 const responses = require('../plugins/responses')
 
 router.get('/:id', passport.authenticate('jwt', { session: false }, undefined), function (req, res) {
-  Pantry.findById(req.params.id).then(function (pantry) {
+  // Auth
+  const decoded = util.getUserFromToken(req.headers)
+
+  if (!decoded) {
+    return res.status(400).json(responses.unauthorizedError())
+  }
+
+  // Params
+  const id = req.params.id
+
+  // Exec
+  Pantry.findById(id).then(function (pantry) {
     return res.status(200).json(pantry)
   }).catch(function (error) {
     return res.status(500).json(responses.serverError(error))
