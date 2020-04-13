@@ -1,0 +1,27 @@
+{
+  "name": "brainfood",
+  "version": "1.0.0",
+  "description": "Think about what you eat.",
+  "main": "index.js",
+  "dependencies": {
+    "npm": "^6.14.4"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "cd server && cross-env NODE_ENV=production node ./bin/www"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/georgebutler/brainfood.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/georgebutler/brainfood/issues"
+  },
+  "homepage": "https://github.com/georgebutler/brainfood#readme"
+}
