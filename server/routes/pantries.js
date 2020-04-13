@@ -5,50 +5,50 @@ const router = express.Router()
 const Pantry = require('../models/pantry')
 const User = require('../models/user')
 const util = require('../plugins/util')
+const responses = require('../plugins/responses')
+
+router.get('/:id', passport.authenticate('jwt', { session: false }, undefined), function (req, res) {
+  Pantry.findById(req.params.id).then(function (pantry) {
+    return res.status(200).json(pantry)
+  }).catch(function (error) {
+    return res.status(500).json(responses.serverError(error))
+  })
+})
 
 router.post('/', passport.authenticate('jwt', { session: false }, undefined), (req, res) => {
-  const name = req.body.name
+  // Auth
   const decoded = util.getUserFromToken(req.headers)
 
-  if (name) {
-    if (decoded) {
-      User.findById(decoded._id, function (err, user) {
-        if (err) {
-          return res.status(500).json({
-            success: false,
-            message: 'Unable to create Pantry.'
-          })
-        } else {
-          Pantry.create({ name: name, owner: user }, function (err, pantry) {
-            if (err) {
-              return res.status(500).json({
-                success: false,
-                message: 'Unable to create Pantry.'
-              })
-            } else {
-              pantry.owner.id = user._id
-              pantry.save()
-
-              user.pantries.push(pantry)
-              user.save()
-
-              return res.status(201).json(pantry)
-            }
-          })
-        }
-      })
-    } else {
-      return res.status(401).json({
-        success: false,
-        message: 'Not authorized'
-      })
-    }
-  } else {
-    return res.status(400).json({
-      success: false,
-      message: 'Name is required.'
-    })
+  if (!decoded) {
+    return res.status(400).json(responses.unauthorizedError())
   }
+
+  // Params
+  const name = req.body.name
+
+  if (!name) {
+    return res.status(400).json(responses.missingParamError('name'))
+  }
+
+  // Exec
+  User.findById(decoded._id).then(function (user) {
+    Pantry.create({
+      name: name,
+      owner: user
+    }).then(function (pantry) {
+      pantry.owner.id = user._id
+      pantry.save()
+
+      user.pantries.push(pantry)
+      user.save()
+
+      return res.status(201).json(pantry)
+    }).catch(function (error) {
+      return res.status(500).json(responses.serverError(error))
+    })
+  }).catch(function (error) {
+    return res.status(500).json(responses.serverError(error))
+  })
 })
 
 module.exports = router
