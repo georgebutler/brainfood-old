@@ -2,15 +2,21 @@ const debug = require('debug')('brainfood:server')
 
 function missingParamError (param) {
   return {
-    success: false,
-    message: `Missing parameter: ${param}`
+    code: 'error/missing-param',
+    detail: `${param}`
+  }
+}
+
+function notUniqueError (param) {
+  return {
+    code: 'error/not-unique',
+    detail: `${param}`
   }
 }
 
 function unauthorizedError () {
   return {
-    success: false,
-    message: 'Unauthorized'
+    code: 'error/not-authorized'
   }
 }
 
@@ -18,9 +24,13 @@ function serverError (msg) {
   debug(msg)
 
   return {
-    success: false,
-    message: 'Something went wrong.'
+    code: 'error/generic'
   }
 }
 
-module.exports = { missingParamError, unauthorizedError, serverError }
+module.exports = {
+  missingParamError,
+  unauthorizedError,
+  serverError,
+  notUniqueError
+}

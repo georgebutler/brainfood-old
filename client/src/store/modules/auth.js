@@ -1,37 +1,46 @@
+const axios = require('axios')
+axios.defaults.baseURL = process.env.API_URL || 'http://localhost:3000/api/'
+
 const state = {
-  isAuthenticated: false,
-  user: null
+  token: null
 }
 
 const getters = {
-  isAuthenticated (state) {
-    return state.isAuthenticated
+  token (state) {
+    return state.token
   },
-  user (state) {
-    return state.user
+  isAuthenticated (state) {
+    return state.token !== null
   }
 }
 
 const actions = {
   login ({ commit }, data) {
-    commit('SET_LOGGED_IN', true)
-    commit('SET_USER', {
-      displayName: 'John Doe',
-      email: 'johndoe@brainfood.com'
+    return new Promise((resolve, reject) => {
+      axios.post('auth/register', {
+        email: data.email,
+        password: data.password,
+        name: {
+          first: data.name.first,
+          last: data.name.last
+        }
+      }).then((res) => {
+        commit('SET_TOKEN', res.data.token)
+        resolve()
+      }).catch((e) => {
+        reject(e)
+      })
     })
   },
   logout ({ commit }) {
-    commit('SET_LOGGED_IN', false)
-    commit('SET_USER', null)
+    commit('SET_TOKEN', null)
   }
 }
 
 const mutations = {
-  SET_LOGGED_IN (state, value) {
-    state.isAuthenticated = value
-  },
-  SET_USER (state, data) {
-    state.user = data
+  SET_TOKEN (state, data) {
+    state.token = data
+    axios.defaults.headers.common.Authorization = data
   }
 }
 

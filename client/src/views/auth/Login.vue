@@ -15,14 +15,12 @@
           <div class="field">
             <label class="label">Email</label>
             <div class="control has-icons-left">
-              <input class="input" type="email" placeholder="john@brainfood.com" required v-bind:class="{'is-danger' : emailError || notFoundError}" v-model.trim="input.email">
+              <input class="input" type="email" placeholder="john@brainfood.com" required
+                     v-bind:class="{'is-danger' : emailError}" v-model.trim="input.email">
               <span class="icon is-small is-left">
                 <ion-icon name="mail-outline"></ion-icon>
               </span>
             </div>
-            <p class="help is-danger" v-if="notFoundError">
-              {{ error.message }}
-            </p>
             <p class="help is-danger" v-if="emailError">
               {{ error.message }}
             </p>
@@ -32,7 +30,8 @@
           <div class="field">
             <label class="label">Password</label>
             <div class="control has-icons-left">
-              <input class="input" type="password" required v-bind:class="{'is-danger' : passwordError}" v-model="input.password">
+              <input class="input" type="password" required v-bind:class="{'is-danger' : passwordError}"
+                     v-model="input.password">
               <span class="icon is-small is-left">
                 <ion-icon name="lock-closed-outline"></ion-icon>
               </span>
@@ -45,7 +44,7 @@
           <!-- Error -->
           <div class="field">
             <div class="control">
-              <div class="help is-danger" v-if="requestError">
+              <div class="help is-danger" v-if="genericError">
                 {{ error.message }}
               </div>
             </div>
@@ -54,14 +53,9 @@
           <!-- Submit -->
           <div class="field">
             <div class="control">
-              <button class="button is-fullwidth is-primary" v-bind:class="{'is-loading' : loading}" v-on:click="onSubmit">Submit</button>
-            </div>
-          </div>
-
-          <!-- Logout -->
-          <div class="field">
-            <div class="control">
-              <button class="button is-fullwidth" v-bind:class="{'is-loading' : loading}" v-on:click="onLogout">Logout</button>
+              <button class="button is-fullwidth is-primary" v-bind:class="{'is-loading' : loading}"
+                      v-on:click="onSubmit">Submit
+              </button>
             </div>
           </div>
         </form>
@@ -90,25 +84,34 @@ export default {
   },
   computed: {
     emailError () {
-      return (this.error && (this.error.code === 'auth/invalid-email' || this.error.code === 'auth/email-already-in-use'))
+      return (this.error && (this.error.code === 'error/not-unique'))
     },
     passwordError () {
-      return (this.error && (this.error.code === 'auth/weak-password' || this.error.code === 'auth/wrong-password'))
+      return (this.error && (this.error.code === 'error/not-authorized'))
     },
-    notFoundError () {
-      return (this.error && (this.error.code === 'auth/user-not-found'))
-    },
-    requestError () {
-      return (this.error && (this.error.code === 'auth/too-many-requests'))
+    genericError () {
+      return (this.error && (this.error.code === 'error/generic'))
     }
   },
   methods: {
     onSubmit () {
       this.loading = true
-      this.$store.dispatch('auth/login')
+      this.$store.dispatch('auth/login', {
+        email: this.input.email,
+        password: this.input.password,
+        name: {
+          first: 'Tony',
+          last: 'Soprano'
+        }
+      })
         .then(() => {
+          this.$router.push({ path: '/home' })
+        })
+        .catch((e) => {
+          this.error = e.response.data
+        })
+        .finally(() => {
           this.loading = false
-          this.$router.push('home')
         })
     },
     onLogout () {
