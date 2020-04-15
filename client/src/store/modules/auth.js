@@ -1,5 +1,5 @@
 const axios = require('axios')
-axios.defaults.baseURL = process.env.API_URL || 'http://localhost:3000/api/'
+axios.defaults.baseURL = process.env.API_URL
 
 const state = {
   token: null
