@@ -9,9 +9,6 @@ const state = {
 const getters = {
   token (state) {
     return state.token
-  },
-  isAuthenticated (state) {
-    return state.token !== null
   }
 }
 
@@ -36,7 +33,7 @@ const actions = {
         password: data.password,
         name: data.name
       }).then((res) => {
-        commit('SET_TOKEN', res.data.token)
+        commit('SET_TOKEN', res.data)
         resolve()
       }).catch((e) => {
         reject(e)
@@ -44,14 +41,20 @@ const actions = {
     })
   },
   logout ({ commit }) {
-    commit('SET_TOKEN', null)
+    commit('REMOVE_TOKEN')
   }
 }
 
 const mutations = {
   SET_TOKEN (state, data) {
-    state.token = data
-    axios.defaults.headers.common.Authorization = data
+    state.token = data.token
+    axios.defaults.headers.common.Authorization = data.token
+    localStorage.setItem('token', data.token)
+  },
+  REMOVE_TOKEN (state, data) {
+    state.token = null
+    axios.defaults.headers.common.Authorization = null
+    localStorage.setItem('token', null)
   }
 }
 

@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import store from '../store'
+// import store from '../store'
 
 import Dashboard from '../views/Dashboard.vue'
 import Error from '../views/message/Error'
@@ -85,7 +85,9 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some((record) => record.meta.requiresAuth)) {
-    if (store.state.auth.isAuthenticated) {
+    const token = localStorage.getItem('auth.token')
+
+    if (token !== null) {
       next()
     } else {
       next({ name: 'Login' })
