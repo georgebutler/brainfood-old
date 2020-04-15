@@ -1,3 +1,4 @@
+const debug = require('debug')('brainfood:auth')
 const express = require('express')
 const jwt = require('jsonwebtoken')
 const router = express.Router()
@@ -25,14 +26,12 @@ router.post('/register', (req, res) => {
   const user = new User({
     email: email,
     password: password,
-    name: {
-      first: name.first,
-      last: name.last
-    }
+    name: name
   })
 
   user.save(function (err, newUser) {
     if (err) {
+      debug(err)
       return res.status(400).json(responses.notUniqueError('email'))
     } else {
       const token = jwt.sign(newUser.toJSON(), process.env.SECRET, { expiresIn: 604800 })
