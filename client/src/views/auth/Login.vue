@@ -15,29 +15,25 @@
           <div class="field">
             <label class="label">Email</label>
             <div class="control has-icons-left">
-              <input class="input" type="email" placeholder="john@brainfood.com" required
-                     v-bind:class="{'is-danger' : emailError}" v-model.trim="input.email">
+              <input class="input" type="email" placeholder="john@brainfood.com" required v-model.trim="input.email">
               <span class="icon is-small is-left">
                 <ion-icon name="mail-outline"></ion-icon>
               </span>
             </div>
-            <p class="help is-danger" v-if="emailError">
-              {{ error.message }}
-            </p>
           </div>
 
           <!-- Password -->
           <div class="field">
             <label class="label">Password</label>
             <div class="control has-icons-left">
-              <input class="input" type="password" required v-bind:class="{'is-danger' : passwordError}"
+              <input class="input" type="password" required v-bind:class="{'is-danger' : authError}"
                      v-model="input.password">
               <span class="icon is-small is-left">
                 <ion-icon name="lock-closed-outline"></ion-icon>
               </span>
             </div>
-            <p class="help is-danger" v-if="passwordError">
-              {{ error.message }}
+            <p class="help is-danger" v-if="authError">
+              {{ error.code }}
             </p>
           </div>
 
@@ -45,7 +41,7 @@
           <div class="field">
             <div class="control">
               <div class="help is-danger" v-if="genericError">
-                {{ error.message }}
+                {{ error.code }}
               </div>
             </div>
           </div>
@@ -83,10 +79,7 @@ export default {
     }
   },
   computed: {
-    emailError () {
-      return (this.error && (this.error.code === 'error/not-unique'))
-    },
-    passwordError () {
+    authError () {
       return (this.error && (this.error.code === 'error/not-authorized'))
     },
     genericError () {
@@ -98,11 +91,7 @@ export default {
       this.loading = true
       this.$store.dispatch('auth/login', {
         email: this.input.email,
-        password: this.input.password,
-        name: {
-          first: 'Tony',
-          last: 'Soprano'
-        }
+        password: this.input.password
       })
         .then(() => {
           this.$router.push({ path: '/home' })

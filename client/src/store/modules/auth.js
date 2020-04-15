@@ -17,13 +17,23 @@ const getters = {
 const actions = {
   login ({ commit }, data) {
     return new Promise((resolve, reject) => {
+      axios.post('auth/login', {
+        email: data.email,
+        password: data.password
+      }).then((res) => {
+        commit('SET_TOKEN', res.data.token)
+        resolve()
+      }).catch((e) => {
+        reject(e)
+      })
+    })
+  },
+  register ({ commit }, data) {
+    return new Promise((resolve, reject) => {
       axios.post('auth/register', {
         email: data.email,
         password: data.password,
-        name: {
-          first: data.name.first,
-          last: data.name.last
-        }
+        name: data.name
       }).then((res) => {
         commit('SET_TOKEN', res.data.token)
         resolve()

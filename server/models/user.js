@@ -13,14 +13,8 @@ const UserSchema = new mongoose.Schema({
     required: [true, 'An email is required.']
   },
   name: {
-    first: {
-      type: String,
-      required: [true, 'A first name is required.']
-    },
-    last: {
-      type: String,
-      required: [true, 'A last name is required.']
-    }
+    type: String,
+    required: [true, 'A name is required.']
   },
   pantries: [{
     type: mongoose.Schema.ObjectId,
