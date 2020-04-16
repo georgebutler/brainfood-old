@@ -4,24 +4,11 @@ const jwt = require('jsonwebtoken')
 const router = express.Router()
 
 const User = require('../models/user')
-const responses = require('../plugins/responses')
 
 router.post('/register', (req, res) => {
   const email = req.body.email
   const password = req.body.password
   const name = req.body.name
-
-  if (!email) {
-    return res.status(400).json(responses.missingParamError('email'))
-  }
-
-  if (!password) {
-    return res.status(400).json(responses.missingParamError('password'))
-  }
-
-  if (!name) {
-    return res.status(400).json(responses.missingParamError('name'))
-  }
 
   const user = new User({
     email: email,
@@ -29,16 +16,16 @@ router.post('/register', (req, res) => {
     name: name
   })
 
-  user.save(function (err, newUser) {
-    if (err) {
-      debug(err)
-      return res.status(400).json(responses.notUniqueError('email'))
-    } else {
-      const token = jwt.sign(newUser.toJSON(), process.env.SECRET, { expiresIn: 604800 })
-      return res.status(201).json({
-        token: `JWT ${token}`
-      })
-    }
+  user.save().then(function (newUser) {
+    const token = jwt.sign(newUser.toJSON(), process.env.SECRET, { expiresIn: 604800 })
+    return res.status(201).json({
+      token: `JWT ${token}`
+    })
+  }).catch(function (error) {
+    debug(error)
+    return res.status(400).json({
+      code: 'error/not-unique'
+    })
   })
 })
 
@@ -46,54 +33,33 @@ router.post('/login', (req, res) => {
   const email = req.body.email
   const password = req.body.password
 
-  if (!email) {
-    return res.status(400).json(responses.missingParamError('email'))
-  }
-
-  if (!password) {
-    return res.status(400).json(responses.missingParamError('password'))
-  }
-
   User.findOne({
     email: email
-  }, function (err, user) {
-    if (err) {
-      return res.status(500).json({
-        success: false,
-        message: 'Something went wrong.'
-      })
-    }
-
+  }).then(function (user) {
     if (!user) {
       return res.status(400).json({
-        success: false,
-        message: 'Email or password are incorrect.'
+        code: 'error/not-authorized'
       })
     }
 
     user.comparePassword(password, function (err, isMatch) {
       if (err || !isMatch) {
         return res.status(400).json({
-          success: false,
-          message: 'Email or password are incorrect.'
+          code: 'error/not-authorized'
         })
       } else {
         const token = jwt.sign(user.toJSON(), process.env.SECRET, { expiresIn: 604800 })
         return res.status(200).json({
-          success: true,
           token: `JWT ${token}`
         })
       }
     })
+  }).catch(function (error) {
+    debug(error)
+    return res.status(500).json({
+      code: 'error/generic'
+    })
   }).select('+password')
-})
-
-router.get('/logout', (req, res) => {
-  req.logout()
-  res.status(200).json({
-    success: true,
-    message: 'Successfully logged out.'
-  })
 })
 
 module.exports = router

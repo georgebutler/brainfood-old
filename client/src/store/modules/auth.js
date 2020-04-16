@@ -22,6 +22,7 @@ const actions = {
         commit('SET_TOKEN', res.data.token)
         resolve()
       }).catch((e) => {
+        console.error(e)
         reject(e)
       })
     })

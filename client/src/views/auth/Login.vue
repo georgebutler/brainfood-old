@@ -15,7 +15,7 @@
           <div class="field">
             <label class="label">Email</label>
             <div class="control has-icons-left">
-              <input class="input" type="email" placeholder="john@brainfood.com" required v-model.trim="input.email">
+              <input class="input" type="email" placeholder="john@brainfood.com" v-model.trim="input.email">
               <span class="icon is-small is-left">
                 <ion-icon name="mail-outline"></ion-icon>
               </span>
@@ -26,8 +26,7 @@
           <div class="field">
             <label class="label">Password</label>
             <div class="control has-icons-left">
-              <input class="input" type="password" required v-bind:class="{'is-danger' : authError}"
-                     v-model="input.password">
+              <input class="input" type="password" v-bind:class="{'is-danger' : authError}" v-model="input.password">
               <span class="icon is-small is-left">
                 <ion-icon name="lock-closed-outline"></ion-icon>
               </span>

@@ -1,3 +1,4 @@
+const debug = require('debug')('brainfood:pantries')
 const express = require('express')
 const passport = require('passport')
 const router = express.Router()
@@ -5,43 +6,37 @@ const router = express.Router()
 const Pantry = require('../models/pantry')
 const User = require('../models/user')
 const util = require('../plugins/util')
-const responses = require('../plugins/responses')
 
 router.get('/:id', passport.authenticate('jwt', { session: false }, undefined), function (req, res) {
-  // Auth
   const decoded = util.getUserFromToken(req.headers)
-
-  if (!decoded) {
-    return res.status(400).json(responses.unauthorizedError())
-  }
-
-  // Params
   const id = req.params.id
 
-  // Exec
+  if (!decoded) {
+    return res.status(400).json({
+      code: 'error/not-authorized'
+    })
+  }
+
   Pantry.findById(id).then(function (pantry) {
     return res.status(200).json(pantry)
   }).catch(function (error) {
-    return res.status(500).json(responses.serverError(error))
+    debug(error)
+    return res.status(500).json({
+      code: 'error/generic'
+    })
   })
 })
 
 router.post('/', passport.authenticate('jwt', { session: false }, undefined), (req, res) => {
-  // Auth
   const decoded = util.getUserFromToken(req.headers)
-
-  if (!decoded) {
-    return res.status(400).json(responses.unauthorizedError())
-  }
-
-  // Params
   const name = req.body.name
 
-  if (!name) {
-    return res.status(400).json(responses.missingParamError('name'))
+  if (!decoded) {
+    return res.status(400).json({
+      code: 'error/not-authorized'
+    })
   }
 
-  // Exec
   User.findById(decoded._id).then(function (user) {
     Pantry.create({
       name: name,
@@ -55,10 +50,16 @@ router.post('/', passport.authenticate('jwt', { session: false }, undefined), (r
 
       return res.status(201).json(pantry)
     }).catch(function (error) {
-      return res.status(500).json(responses.serverError(error))
+      debug(error)
+      return res.status(500).json({
+        code: 'error/generic'
+      })
     })
   }).catch(function (error) {
-    return res.status(500).json(responses.serverError(error))
+    debug(error)
+    return res.status(500).json({
+      code: 'error/generic'
+    })
   })
 })
 
