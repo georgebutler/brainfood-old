@@ -1,6 +1,7 @@
 const axios = require('axios')
 
-axios.defaults.baseURL = 'https://brainfood-98234974.herokuapp.com/api/'
+axios.defaults.baseURL = 'http://localhost:3000/api/'
+// axios.defaults.baseURL = 'https://brainfood-98234974.herokuapp.com/api/'
 
 const state = {
   token: null

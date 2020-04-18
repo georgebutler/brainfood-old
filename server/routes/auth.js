@@ -35,31 +35,31 @@ router.post('/login', (req, res) => {
 
   User.findOne({
     email: email
-  }).then(function (user) {
-    if (!user) {
+  }).select('+password').then(function (user) {
+    if (user) {
+      user.comparePassword(password, function(err, isMatch) {
+        if (err || !isMatch) {
+          return res.status(400).json({
+            code: 'error/not-authorized'
+          })
+        } else {
+          const token = jwt.sign(user.toJSON(), process.env.SECRET, { expiresIn: 604800 })
+          return res.status(200).json({
+            token: `JWT ${token}`
+          })
+        }
+      })
+    } else {
       return res.status(400).json({
         code: 'error/not-authorized'
       })
     }
-
-    user.comparePassword(password, function (err, isMatch) {
-      if (err || !isMatch) {
-        return res.status(400).json({
-          code: 'error/not-authorized'
-        })
-      } else {
-        const token = jwt.sign(user.toJSON(), process.env.SECRET, { expiresIn: 604800 })
-        return res.status(200).json({
-          token: `JWT ${token}`
-        })
-      }
-    })
   }).catch(function (error) {
     debug(error)
     return res.status(500).json({
       code: 'error/generic'
     })
-  }).select('+password')
+  })
 })
 
 module.exports = router
