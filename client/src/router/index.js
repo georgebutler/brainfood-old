@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-// import store from '../store'
+import store from '../store'
 
 import Dashboard from '../views/Dashboard.vue'
 import Error from '../views/message/Error'
@@ -58,7 +58,6 @@ const routes = [
     name: 'Login',
     component: Login,
     meta: {
-      requiresAuth: false,
       title: 'Login'
     }
   },
@@ -67,7 +66,6 @@ const routes = [
     name: 'Register',
     component: Register,
     meta: {
-      requiresAuth: false,
       title: 'Register'
     }
   },
@@ -85,12 +83,10 @@ const router = new VueRouter({
 
 router.beforeEach((to, from, next) => {
   if (to.matched.some((record) => record.meta.requiresAuth)) {
-    const token = localStorage.getItem('auth.token')
-
-    if (token !== null) {
-      next()
-    } else {
+    if (!store.getters['auth/token']) {
       next({ name: 'Login' })
+    } else {
+      next()
     }
   } else {
     next()

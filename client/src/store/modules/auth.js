@@ -1,62 +1,45 @@
 const axios = require('axios')
-
-axios.defaults.baseURL = 'http://localhost:3000/api/'
-// axios.defaults.baseURL = 'https://brainfood-98234974.herokuapp.com/api/'
+axios.defaults.baseURL = (process.env.NODE_ENV !== 'production') ? 'http://localhost:3000/api/' : 'https://brainfood-98234974.herokuapp.com/api/'
 
 const state = {
-  token: null
+  token: ''
 }
 
 const getters = {
-  token (state) {
-    return state.token
-  }
-}
-
-const actions = {
-  login ({ commit }, data) {
-    return new Promise((resolve, reject) => {
-      axios.post('auth/login', {
-        email: data.email,
-        password: data.password
-      }).then((res) => {
-        commit('SET_TOKEN', res.data.token)
-        resolve()
-      }).catch((e) => {
-        console.error(e)
-        reject(e)
-      })
-    })
-  },
-  register ({ commit }, data) {
-    return new Promise((resolve, reject) => {
-      axios.post('auth/register', {
-        email: data.email,
-        password: data.password,
-        name: data.name
-      }).then((res) => {
-        commit('SET_TOKEN', res.data)
-        resolve()
-      }).catch((e) => {
-        reject(e)
-      })
-    })
-  },
-  logout ({ commit }) {
-    commit('REMOVE_TOKEN')
-  }
+  token: state => state.token,
+  tokenData: (state, getters) => state.token ? JSON.parse(atob(getters.token.split('.')[1])) : null
 }
 
 const mutations = {
   SET_TOKEN (state, data) {
     state.token = data.token
-    axios.defaults.headers.common.Authorization = data.token
-    localStorage.setItem('token', data.token)
+  }
+}
+
+const actions = {
+  async login ({ commit }, data) {
+    return axios.post('auth/login', {
+      email: data.email,
+      password: data.password
+    }).then((res) => {
+      commit('SET_TOKEN', res.data)
+    }).catch((e) => {
+      throw e
+    })
   },
-  REMOVE_TOKEN (state, data) {
-    state.token = null
-    axios.defaults.headers.common.Authorization = null
-    localStorage.setItem('token', null)
+  async register ({ commit }, data) {
+    return axios.post('auth/register', {
+      email: data.email,
+      password: data.password,
+      name: data.name
+    }).then((res) => {
+      commit('SET_TOKEN', res.data.token)
+    }).catch((e) => {
+      throw e
+    })
+  },
+  async logout ({ commit }, data) {
+    await commit('SET_TOKEN', '')
   }
 }
 
