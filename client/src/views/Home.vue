@@ -43,7 +43,8 @@
             <div v-on:click="changeTab(1)">
               <div class="title">
                 <div class="icon is-large">
-                  <ion-icon name="settings-outline" size="large" v-bind:color="tab === 1 ? 'primary' : 'dark'"></ion-icon>
+                  <ion-icon name="settings-outline" size="large"
+                            v-bind:color="tab === 1 ? 'primary' : 'dark'"></ion-icon>
                 </div>
               </div>
             </div>
@@ -54,10 +55,10 @@
       <!-- Feed -->
       <section class="section" v-if="tab === 0">
         <h3 class="title is-size-5">Feed</h3>
-        <FeedItem name="John Doe"></FeedItem>
-        <FeedItem name="James Smith"></FeedItem>
-        <FeedItem name="Tony Granger"></FeedItem>
-        <FeedItem name="Thomas Wilson"></FeedItem>
+        <p class="is-size-7" v-if="activities.length <= 0">Your activity will be displayed here.</p>
+        <div v-else>
+          <FeedItem v-for="activity in activities" v-bind:key="activity._id" v-bind:activity="activity"></FeedItem>
+        </div>
       </section>
 
       <!-- Settings -->
@@ -99,6 +100,11 @@ export default {
     FeedItem,
     AppHeader,
     AppNavbar
+  },
+  computed: {
+    activities () {
+      return this.$store.getters['auth/tokenData'].activities
+    }
   },
   data: function () {
     return {

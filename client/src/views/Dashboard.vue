@@ -62,6 +62,25 @@
         </label>
       </div>
 
+      <!-- New Collection Modal -->
+      <div class="modal is-active">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+          <div class="box">
+            <h5 class="title is-5">New Collection</h5>
+            <div class="field">
+              <label class="label">Name</label>
+              <div class="control">
+                <input class="input" type="text" placeholder="Fresh Fruits">
+              </div>
+            </div>
+            <button class="button is-fullwidth is-primary mt-1">Create</button>
+          </div>
+        </div>
+        <button class="modal-close is-large"></button>
+      </div>
+
+      <!-- New Collection Button -->
       <button class="button is-fullwidth is-primary mt-1">New Collection</button>
 
       <!-- Quick Item View -->

@@ -124,7 +124,11 @@ export default {
         name: this.input.name
       })
         .then(() => {
-          this.$router.push({ path: '/home' })
+          this.$router
+            .push('/home')
+            .catch((e) => {
+              console.error(e)
+            })
         })
         .catch((e) => {
           this.error = e.response.data

@@ -20,6 +20,10 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: [true, 'A name is required.']
   },
+  friends: [{
+    type: mongoose.Schema.ObjectId,
+    ref: 'User'
+  }],
   pantries: [{
     type: mongoose.Schema.ObjectId,
     ref: 'Pantry'

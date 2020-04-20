@@ -9,10 +9,10 @@
         </div>
 
         <!-- Right -->
-        <div class="level-right">
+        <div class="level-right" v-if="user">
           <div class="level-item" v-on:click="onLogout">
             <figure class="image is-32x32">
-              <img class="is-rounded" src="https://i.pravatar.cc/32" alt="Avatar">
+              <img class="is-rounded" v-bind:src="user.avatar" alt="Avatar">
             </figure>
           </div>
         </div>
@@ -27,6 +27,11 @@ export default {
     title: {
       type: String,
       default: 'Brainfood'
+    }
+  },
+  computed: {
+    user () {
+      return this.$store.getters['auth/tokenData']
     }
   },
   methods: {

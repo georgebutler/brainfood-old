@@ -20,8 +20,8 @@
 export default {
   name: 'FeedItem',
   props: {
-    name: {
-      type: String,
+    activity: {
+      type: Object,
       required: true
     },
     time: {
