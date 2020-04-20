@@ -5,6 +5,7 @@ const router = express.Router()
 
 const Pantry = require('../models/pantry')
 const User = require('../models/user')
+const Activity = require('../models/activity')
 const util = require('../plugins/util')
 
 router.get('/:id', passport.authenticate('jwt', { session: false }, undefined), function (req, res) {
@@ -46,6 +47,9 @@ router.post('/', passport.authenticate('jwt', { session: false }, undefined), (r
       pantry.save()
 
       user.pantries.push(pantry)
+      user.activities.push(Activity.create({
+        message: 'Created a new Pantry.'
+      }))
       user.save()
 
       return res.status(201).json(pantry)

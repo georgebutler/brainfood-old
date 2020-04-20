@@ -6,6 +6,8 @@ const PantryItemSchema = new mongoose.Schema({
     type: mongoose.Schema.ObjectId,
     ref: 'Pantry'
   }
+}, {
+  timestamps: true
 })
 
 module.exports = mongoose.model('PantryItem', PantryItemSchema)

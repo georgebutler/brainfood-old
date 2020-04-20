@@ -2,6 +2,10 @@ const mongoose = require('mongoose')
 const bcrypt = require('bcrypt-nodejs')
 
 const UserSchema = new mongoose.Schema({
+  avatar: {
+    type: String,
+    default: `https://api.adorable.io/avatars/285/${Date.now()}.png`
+  },
   password: {
     type: String,
     select: false,
@@ -19,7 +23,13 @@ const UserSchema = new mongoose.Schema({
   pantries: [{
     type: mongoose.Schema.ObjectId,
     ref: 'Pantry'
+  }],
+  activities: [{
+    type: mongoose.Schema.ObjectId,
+    ref: 'Activity'
   }]
+}, {
+  timestamps: true
 })
 
 UserSchema.pre('save', function (next) {
