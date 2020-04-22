@@ -63,7 +63,7 @@
       </div>
 
       <!-- New Collection Modal -->
-      <div class="modal is-active">
+      <div class="modal" v-bind:class="{ 'is-active': collection.new.show }">
         <div class="modal-background"></div>
         <div class="modal-content">
           <div class="box">
@@ -71,17 +71,17 @@
             <div class="field">
               <label class="label">Name</label>
               <div class="control">
-                <input class="input" type="text" placeholder="Fresh Fruits">
+                <input class="input" type="text" placeholder="eg. Fresh Fruits" v-model.trim="collection.new.name">
               </div>
             </div>
             <button class="button is-fullwidth is-primary mt-1">Create</button>
           </div>
         </div>
-        <button class="modal-close is-large"></button>
+        <button class="modal-close is-large" v-on:click="showCollectionCreate(false)"></button>
       </div>
 
       <!-- New Collection Button -->
-      <button class="button is-fullwidth is-primary mt-1">New Collection</button>
+      <button class="button is-fullwidth is-primary mt-1" v-on:click="showCollectionCreate(true)">New Collection</button>
 
       <!-- Quick Item View -->
       <div class="block">
@@ -128,12 +128,24 @@ export default {
   },
   data: function () {
     return {
-      tab: 0
+      tab: 0,
+      collection: {
+        new: {
+          show: false,
+          name: ''
+        }
+      }
     }
   },
   methods: {
     changeTab: function (tab) {
       this.tab = tab
+    },
+    showCollectionCreate: function (state) {
+      this.collection.new.show = state
+    },
+    createNewCollection: function () {
+      console.log(this.collection.new.name)
     }
   }
 }
